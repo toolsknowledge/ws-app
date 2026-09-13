@@ -1,0 +1,115 @@
+1) multi agent communication (explain)
+
+2) demonistrate application (frontend to backend)
+        start backend
+            cd backend
+            python -m venv venv
+            source venv/bin/activate
+            pip install -r requirements.txt
+            uvicorn app.main:app --reload
+        start frontend
+            cd frontend
+            npm install
+            npm run dev
+        http://localhost:5173
+
+3) architecture with langgraph
+
+4) coding snippets
+
+
+
+******************************************
+{
+    "code": request.code,
+    "tool_result": "",
+    "review": "",
+    "answer": ""
+}
+
+STATE
+────────────────────
+
+code:
+def add(a, b)
+    return a + b
+
+tool_result:
+""
+
+review:
+""
+
+answer:
+""
+****************************************
+
+
+
+START → reviewer
+
+START
+  │
+  ▼
+Reviewer Agent
+
+code
+ ↓
+MCP analysis
+ ↓
+LLM
+ ↓
+review
+
+{
+    code: "...",
+    tool_result: "Syntax error...",
+    review: "The function definition is missing a colon...",
+    answer: ""
+}
+
+------------------------------------------------------
+
+
+Reviewer
+    │
+    ▼
+Teacher
+
+code
++
+tool_result
++
+review
+
+
+
+Your function has one small syntax problem.
+
+You wrote:
+
+def add(a, b)
+
+Python requires a colon after the function definition.
+
+Correct:
+
+def add(a, b):
+    return a + b
+
+
+
+
+answer = "Your function has one small syntax problem..."
+
+
+{
+    code: "...",
+    tool_result: "...",
+    review: "...",
+    answer: "Your function has one small syntax problem..."
+}
+
+
+
+graph.add_edge("teacher", END)
