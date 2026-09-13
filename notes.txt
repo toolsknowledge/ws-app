@@ -17,99 +17,17 @@
 
 4) coding snippets
 
+-----------------------
+1) build backend docker image
+        backend
+            Dockerfile
 
+2) build frontend docker image
+        frontend
+            Dockerfile
 
-******************************************
-{
-    "code": request.code,
-    "tool_result": "",
-    "review": "",
-    "answer": ""
-}
+3) create docker-compose.yml file
+        provide communication between two docker containers
+        (backend) (frontend)
 
-STATE
-────────────────────
-
-code:
-def add(a, b)
-    return a + b
-
-tool_result:
-""
-
-review:
-""
-
-answer:
-""
-****************************************
-
-
-
-START → reviewer
-
-START
-  │
-  ▼
-Reviewer Agent
-
-code
- ↓
-MCP analysis
- ↓
-LLM
- ↓
-review
-
-{
-    code: "...",
-    tool_result: "Syntax error...",
-    review: "The function definition is missing a colon...",
-    answer: ""
-}
-
-------------------------------------------------------
-
-
-Reviewer
-    │
-    ▼
-Teacher
-
-code
-+
-tool_result
-+
-review
-
-
-
-Your function has one small syntax problem.
-
-You wrote:
-
-def add(a, b)
-
-Python requires a colon after the function definition.
-
-Correct:
-
-def add(a, b):
-    return a + b
-
-
-
-
-answer = "Your function has one small syntax problem..."
-
-
-{
-    code: "...",
-    tool_result: "...",
-    review: "...",
-    answer: "Your function has one small syntax problem..."
-}
-
-
-
-graph.add_edge("teacher", END)
+4) push code to GitHub
