@@ -31,3 +31,130 @@
         (backend) (frontend)
 
 4) push code to GitHub
+        https://github.com/toolsknowledge/ws-app.git
+
+5) install Docker Desktop
+        https://www.docker.com/products/docker-desktop/
+
+6) test docker images locally
+
+        docker --version
+        docker compose version
+        docker compose ps
+        docker compose up -d
+        curl http://localhost:8001/health
+
+7) create VM (Azure Account)
+
+| Setting        | Value                   |
+| -------------- | ----------------------- |
+| Resource Group | `vpro`                  |
+| VM Name        | `vpro-ai-vm`            |
+| Region         | East US                 |
+| Image          | Ubuntu Server 24.04 LTS |
+| Architecture   | x64                     |
+| Size           | `Standard_D2as_v7`      |
+| Authentication | SSH public key          |
+| Username       | `azureuser`             |
+| SSH key        | Generate new key pair   |
+| Key name       | `vpro-ai-vm-key`        |
+
+8) open below port also
+       
+
+        Source:                  Any
+        Source port ranges:      *
+        Destination:             Any
+        Destination port ranges: 8081
+        Protocol:                TCP
+        Action:                  Allow
+        Priority:                310
+        Name:                    Allow-Frontend-8081
+
+        Source:                  Any
+        Source port ranges:      *
+        Destination:             Any
+        Destination port ranges: 8001
+        Protocol:                TCP
+        Action:                  Allow
+        Priority:                330
+        Name:                    Allow-Backend-8001
+
+9) connect to vm
+        chmod 400 ~/Downloads/vpro-workshop_key.pem
+        ssh -i ~/Downloads/vpro-workshop_key.pem azureuser@168.62.40.157
+
+
+10) install git
+        sudo apt update -y
+        sudo apt install git -y
+        git --version
+
+11) install docker
+        sudo apt update
+        sudo apt install -y ca-certificates curl
+
+        sudo install -m 0755 -d /etc/apt/keyrings
+
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+  -o /etc/apt/keyrings/docker.asc
+
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
+sudo apt update
+
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+sudo docker --version
+
+docker compose version
+
+12) set permissions to user
+
+        sudo usermod -aG docker $USER
+        newgrp docker
+
+13) test docker in azure vm
+
+        docker run hello-world
+
+14) clone repo here (github repo) (jenkins)
+
+        cd ~
+        git clone https://github.com/toolsknowledge/ws-app.git
+
+        cd ~/ws-app
+
+        ls
+
+        ~/ws-app
+
+        nano .env
+
+            OPENAI_API_KEY=
+            FRONTEND_URL=http://IPADDRESS
+            VITE_API_URL=IPADDRESS:8001
+
+            Press Ctrl + O
+            Press Enter
+            Press Ctrl + X
+
+        ls -la .env
+
+15) run docker compose
+        docker compose up -d --build
+        docker compose ps
+        curl http://localhost:8001/health
+        curl -I http://localhost:8081
+        http://168.62.40.157:8081
+
+
